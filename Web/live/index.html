@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT QR Code</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="index.css" media="screen" />
+    <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+</head>
+<body>
+    <h1>Brian's IoT QR Code Thing</h1>
+
+    <div id="flavortext">
+    <p>
+        Welcome to Brian's IoT QR code. If the device is powered on and listening, then the following random
+        colors will be pushed to it momentarily...
+    </p>
+    </div>
+
+    <div id="wait">
+        Contacting server...
+    </div>
+
+    <div id="result">
+        <p>
+            Your randomly selected colors are:
+        </p>
+        <!-- Yes. This is really a table in 2022. -->
+        <table id="colorTable">
+            <tr>
+                <td id="leftColor">
+                    <div class="colorbox" id="leftColorSwatch" style="background-color: #f00"></div>
+                    <p id="leftColorName">red</p>
+                </td>
+                <td id="rightColor">
+                    <div class="colorbox" id="rightColorSwatch" style="background-color: #0f0"></div>
+                    <p id="rightColorName">green</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<script>
+    $( document ).ready(function() {
+        documentLoaded();
+    });
+</script>
+</body>
+</html>

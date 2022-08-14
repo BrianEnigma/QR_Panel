@@ -1,0 +1,46 @@
+body {
+    font-family: sans-serif;
+    font-size: 18pt;
+}
+
+h1 {
+    font-family: Futura, sans-serif;
+    font-size:24pt;
+}
+
+div.colorbox {
+    width: 100px;
+    height: 100px;
+    border: solid black 2px;
+    border-radius: 50px;
+    display: inline-block;
+}
+
+#wait {
+    text-align: center;
+    color: #999;
+}
+
+#result {
+    display: none;
+    text-align: center;
+}
+
+#colorTable {
+    width: 220px;
+    margin: 1em auto;
+}
+
+#leftColor {
+    width: 110px;
+    height: 150px;
+    text-align: center;
+    vertical-align: top;
+}
+
+#rightColor {
+    width: 110px;
+    height: 150px;
+    text-align: center;
+    vertical-align: top;
+}
