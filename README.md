@@ -64,6 +64,8 @@ The code under [Arduino/led_bringup/](Arduino/led_bringup/) lets you test the LE
 
 The code on the above-mentioned blog post lets you test WiFi, AWS IoT, and MQTT.
 
+The final code is under the [Arduino/QRPanel2/](Arduino/QRPanel2/) folder. You'll need to rename `secrets-example.h` and poke in your own specific wifi credentials, cert, and key.
+
 ## Cloud Infrastructure
 
 I won't walk you through the details of the setup, but the control flow looks like this:
@@ -84,3 +86,17 @@ Cloudfront ⇒ S3 ⇒ API Gateway ⇒ Lambda ⇒ IoT MQTT ⇒ Adafruit Feather H
     - Create a subdomain under my main domain name.
     - Create a certificate for that subdomain in the AWS Certificate Manager.
     - Create a CloudFront distribution in front of the S3 bucket that uses that certificate.
+
+## Operation
+
+- When powering up, the outline of the QR code progressively lights up green. It's a progress bar indicating: wifi connectivity, IoT connectivity, NTP server connectivity, and first heartbeat.
+- Once fully green, the device is connected ready to go. The QR Panel changes to white. This is the default state.
+- When an MQTT message is received with a color pair, you get a spin animation.
+    - If the message cannot be parsed, you get a brief red frame.
+    - Occasionally, the animation takes a bit too long, the Huzzah disconnects from AWS, and it has to go through the green progress bar again.
+- In the event of any other kind of error (beyond just parsing the MQTT payload), the QR Panel pulses red. There's no return from this beyond hitting the reset button on the top. This includes problems connecting to wifi, problems connecting to AWS, and similar.
+
+## TODO
+
+- I've caught the common error states in the firmware code, but there are a few spots that use infinite loops instead of timeouts.
+- The firmware is single-threaded and the animation does not ever yield to the MQTT client. Depending on heartbeat timing, this can cause a disconnect/reconnect. This reconnect is handled in the code, but it would be more elegant to allow the MQTT to be serviced or kept alive. (But this, in turn, adds callback function re-entrance into the mix, greatly increasing the code complexity on a little memory-constrained device. Addressing this felt just a bit too much for a 1.0 release.)
