@@ -182,7 +182,7 @@ bool connectToAWSIoT()
     
     iot.setClientRSACert(&clientCertificate, &clientPrivateKey);
     iot.setTrustAnchors(&caCertificate);
-    
+    iot.setInsecure(); // Blindly trust the server certs.
     client.begin(AWS_ENDPOINT, 8883, iot);
     
     while (!client.connect(AWS_THINGNAME)) 
@@ -261,6 +261,15 @@ void setup()
     displayProgress(1, 4);
     if (!connectToWiFi())
         displayError(false);
+    Serial.println("Starting NTP time client.");
+    timeClient.begin();
+    timeClient.forceUpdate();
+    while (!timeClient.isTimeSet())
+    {
+        Serial.print(".");
+        delay(1000);
+    }
+    Serial.println(timeClient.getFormattedTime());
     displayProgress(2, 4);
     if (!connectToAWSIoT())
         displayError(false);
